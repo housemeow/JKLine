@@ -44,6 +44,15 @@ app.config( function($stateProvider, $urlRouterProvider) {
 	              }
 	          }
 	    })
+	    .state('tab.setting', {
+	          url: '/setting',
+	          views: {
+	              'tab-setting': {
+	                   templateUrl: 'templates/setting.html',
+	                   controller: 'settingController'
+	              }
+	          }
+	    })
 	    .state('chatRoom', {
 	    	url: '/chatRoom',
 	    	templateUrl: 'templates/chatRoom.html',
