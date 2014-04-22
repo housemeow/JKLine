@@ -1,0 +1,12 @@
+<ion-view title="'聊天紀錄'"> <ion-content has-header="true"
+	has-tabs="true" padding="true">
+<div ng-show="messageLogs.length!=0" ng-repeat="messageLog in messageLogs">
+	<a class="item item-avatar "href="#/chatRoom?name={{messageLog.name}}"> <img
+		src="venkman.jpg">
+		<h2>{{messageLog.name}}</h2>
+		<p>mid={{messageLog.recentlyMessage}}</p>
+	</a>
+</div>
+
+<h3 ng-show="messageLogs.length==0">你沒有任何訊息</h3>
+</ion-content> </ion-view>
