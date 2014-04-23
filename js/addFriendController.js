@@ -11,4 +11,11 @@ app.controller('addFriendController',function($scope){
 			$scope.state = $scope.REGISTERED;
 		}
 	};
+	
+	$scope.clickAddFriend = function()
+	{
+    	console.log("You clicked send button." + $scope.message);
+		console.log("You clicked add friend button. ID:" + $scope.id);
+		$scope.id="";
+	};
 });

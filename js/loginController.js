@@ -9,9 +9,11 @@ app.controller('loginController',function($scope, $location){
 		var confirmPassword = $scope.confirmPassword;
 
 		$location.path('/tab/friendList');
+		console.log("You clicked login button.");
 	};
 	
 	$scope.onSignupClick = function(){
 		$location.path('/signup');
+		console.log("You clicked register button.");
 	};
 });

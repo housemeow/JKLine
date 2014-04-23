@@ -28,4 +28,17 @@ app.controller('friendListController',function($scope){
 	
 	$scope.friends = friends;
 	
+	$scope.clickAccept = function(id)
+	{
+		console.log("You clicked accept button." + id);
+	};
+	
+	$scope.clickReject = function(id)
+	{
+		console.log("You clicked reject button." + id);
+	};
+	$scope.clickFriend = function(id)
+	{
+		console.log("You clicked friend in friend list." + id);
+	};
 });

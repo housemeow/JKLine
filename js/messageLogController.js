@@ -12,6 +12,8 @@ app.controller('messageLogController',function($scope){
 	 }
 	 ];
 	$scope.messageLogs = messageLogs;
-	
-	
+	$scope.clickMessageLog = function(id)
+	{
+		console.log("You clicked messageLog." + id);
+	};
 });
