@@ -3,20 +3,19 @@
 
 <h3 ng-show="friendInvitations.length!=0">好友邀請</h3>
 
-<div ng-show="friendInvitations.length!=0"
-	ng-repeat="friendInvitation in friendInvitations">
-	<a class="item item-avatar"> <img src="venkman.jpg">
-		<h2>{{friendInvitation.name}}</h2>
-		<p>mid={{friendInvitation.mid}}</p>
-		<button  class="button button-positive">接受</button>
-		<button  class="button button-positive">拒絕</button>
-	</a>
+<div class="list" ng-show="friendInvitations.length!=0">
+	<div class="item"
+		ng-repeat="friendInvitation in friendInvitations">
+		{{friendInvitation.name}}
+		<button class="button button-balanced button-small">接受</button>
+		<button class="button button-assertive button-small">拒絕</button>
+	</div>
 </div>
 
 
 <h3 ng-show="friendInvitations.length!=0">好友清單</h3>
-<div ng-show="friend.length!=0" ng-repeat="friend in friends">
-	<a class="item item-avatar" href="#/chatRoom?name={{friend.name}}"> <img src="venkman.jpg">
+<div class="list" ng-show="friend.length!=0">
+	<a class="item" href="#/chatRoom?name={{friend.name}}"  ng-repeat="friend in friends">
 		<h2>{{friend.name}}</h2>
 		<p>{{friend.mid}}</p>
 	</a>
