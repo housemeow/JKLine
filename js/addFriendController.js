@@ -5,6 +5,8 @@ app.controller('addFriendController',function($scope){
 	
 	$scope.state = $scope.UNREGISTERED;
 	
+	$scope.friend = {};
+	
 	$scope.init = function() {
 		$scope.host = SettingManager.getHost();
 		if ($scope.host.registered) {
@@ -14,8 +16,7 @@ app.controller('addFriendController',function($scope){
 	
 	$scope.clickAddFriend = function()
 	{
-    	console.log("You clicked send button." + $scope.message);
-		console.log("You clicked add friend button. ID:" + $scope.id);
+		console.log("You clicked add friend button. ID:" + $scope.friend.id);
 		$scope.id="";
 	};
 });

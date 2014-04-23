@@ -2,11 +2,11 @@
     <ion-content has-header="true" has-tabs="true" padding="true">
 		<label class="item item-input">
 		    <span class="input-label">帳號</span>
-		    	<input type="text">
+		    	<input type="text" ng-model="member.id">
 	  	</label>
 		<label class="item item-input">
 		    <span class="input-label">密碼</span>
-		    <input type="password">
+		    <input type="password" ng-model="member.password">
 		</label>
 		<button class="button button-full button-balanced" ng-click="onLoginClick()" >
 		  登入
