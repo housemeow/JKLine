@@ -47,6 +47,8 @@ app.factory('JKLineDB', function($window, PhoneGap) {
             });
     	},
         
+    	
+    	
         getFriends: function (onSuccess, onError) {
         	PhoneGap.ready(function() {
         		db.transaction(function(tx) {
@@ -56,6 +58,39 @@ app.factory('JKLineDB', function($window, PhoneGap) {
     				);
             	});
             });
+        },
+        
+        updateInvitations : function (response,onSuccess, onError)
+        {
+			PhoneGap.ready(function() {
+	            db.transaction(function(tx) {
+	                tx.executeSql("DELETE FROM Invitations WHERE 1");
+	                for (var i = 0; i < response.length; i++) 
+					{
+		                tx.executeSql("INSERT INTO Invitations(mid, name) VALUES (?, ?)",
+		                		[response[i].mid, response[i].name],
+		                    onSucces, 
+		                    onError
+		                );
+					};
+                });
+    		});
+        },
+
+        updateFriends: function (response, onSucces, onError) {
+			PhoneGap.ready(function() {
+	            db.transaction(function(tx) {
+	                tx.executeSql("DELETE FROM Friends WHERE 1");
+	                for (var i = 0; i < response.length; i++) 
+					{
+		                tx.executeSql("INSERT INTO Friends(mid, name, state) VALUES (?, ?, ?)",
+		                		[response[i].mid, response[i].name, response[i].state],
+		                    onSucces, 
+		                    onError
+		                );
+					}
+	            });
+			});
         },
         
         getInvitations: function (onSuccess, onError) {
@@ -72,7 +107,7 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         getTheLatestMessageLog: function (friend, onSuccess, onError) {
         	PhoneGap.ready(function() {
         		db.transaction(function(tx) {
-        			tx.executeSql("SELECT * FROM MessageLog,Friend where (MessageLog.timeStamp = (select max(timeStamp) as latestTime from MessageLog where mid = ?)) and (friend.mid = MessageLog.mid)", [friend.mid],
+        			tx.executeSql("SELECT * FROM MessageLog,Friends where (MessageLog.timeStamp = (select max(timeStamp) as latestTime from MessageLog where mid = ?)) and (friend.mid = MessageLog.mid)", [friend.mid],
 	        			onSuccess,
         				onError
     				);
@@ -83,8 +118,13 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         getMessageLog: function (friend, onSuccess, onError) {
         	PhoneGap.ready(function() {
         		db.transaction(function(tx) {
-        			tx.executeSql("SELECT * FROM MessageLog WHERE mid = ?", [friend.mid],
-	        			onSuccess,
+        			tx.executeSql("SELECT * FROM MessageLog WHERE mid = ? order by timeStamp asc", [friend.mid],
+    					function(tx, res)
+        				{
+    						var messageLogs = res.rows;
+        					console.log("sqlitedb messageLogs=" + JSON.stringify(messageLogs));
+                        	(onSuccess || angular.noop)(res.rows);
+        				},
         				onError
     				);
             	});
@@ -97,7 +137,7 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         			tx.executeSql(
 	                		"INSERT INTO MessageLog(mid, message, timeStamp, messageState) VALUES (?, ?, ?, ?)",
 	                		[messageLog.mid, messageLog.message, messageLog.timeStamp, message.messageState],
-	        			onSuccess,
+        				onSuccess,
         				onError
     				);
             	});

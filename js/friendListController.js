@@ -2,9 +2,12 @@ app.controller('friendListController',function($scope, $http, JKLineDB, PhoneGap
 	var JKLineRegisterUrl = "http://iweb.csie.ntut.edu.tw:10080/apps36/member/";
 
 	$scope.preference = {};
-	JKLineDB.getPreference(function (member){
+	
+
+	JKLineDB.getPreference(function(member){
+		console.log("hello i'm in friend controller ="+ JSON.stringify(member));
 		$scope.preference = member;
-		console.log("member.mid="+ $scope.preferece.mid);
+		updateFriends();
 	});
 	
 	var updateFriends = function(){
@@ -17,47 +20,23 @@ app.controller('friendListController',function($scope, $http, JKLineDB, PhoneGap
 	    }).success(function(response, status, headers, config){
 			console.log(response);
 			$scope.friends = response;
-			PhoneGap.ready(function() {
-	            db.transaction(function(tx) {
-	                tx.executeSql("DELETE FROM Friend WHERE 1");
-	                for (var i = 0; i < response.length; i++) 
-					{
-		                tx.executeSql("INSERT INTO Friend(mid, name, state) VALUES (?, ?, ?)",
-		                		[response[i].mid, response[i].name, response[i].state],
-		                    onSucces, 
-		                    onError
-		                );
-					}
-                });
-    		});
+			JKLineDB.updateFriends(response);
 		});
 		
 		$http({
 	        method: 'POST',
 	        url: JKLineRegisterUrl + "GetInvitations",
 	        data: {
-	            mid:1
+	            mid:$scope.preference.mid
 	        }
 	    }).success(function(response, status, headers, config){
 			console.log(response);
 			$scope.friendInvitations = response;
-			PhoneGap.ready(function() {
-	            db.transaction(function(tx) {
-	                tx.executeSql("DELETE FROM Invitation WHERE 1");
-	                for (var i = 0; i < response.length; i++) 
-					{
-		                tx.executeSql("INSERT INTO Invitation(mid, name) VALUES (?, ?)",
-		                		[response[i].mid, response[i].name],
-		                    onSucces, 
-		                    onError
-		                );
-					}
-                });
-    		});
+			JKLineDB.updateInvitations(response);
+			
 			
 		});
 	};
-	updateFriends();
 	
 	$scope.clickAccept = function(id)
 	{
