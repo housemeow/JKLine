@@ -104,11 +104,21 @@ app.factory('JKLineDB', function($window, PhoneGap) {
             });
         },
         
-        getTheLatestMessageLog: function (friend, onSuccess, onError) {
+        getTheLatestMessageLog: function (friend,onSuccess, onError) {
         	PhoneGap.ready(function() {
         		db.transaction(function(tx) {
-        			tx.executeSql("SELECT * FROM MessageLog,Friends where (MessageLog.timeStamp = (select max(timeStamp) as latestTime from MessageLog where mid = ?)) and (friend.mid = MessageLog.mid)", [friend.mid],
-	        			onSuccess,
+        			tx.executeSql("SELECT * FROM MessageLog,Friends where (MessageLog.timeStamp = (select max(timeStamp) as latestTime from MessageLog where mid = ?)) and (friends.mid = MessageLog.mid)", [friend.mid],
+    					function(tx, res)
+        				{
+        					console.log("sqlite getthelatest");
+    						messageLogs = [];
+    						for (var i = 0, max = res.rows.length; i < max; i++) {
+    							messageLogs.push(res.rows.item(i));
+    						}
+    						
+        					console.log("sqlitedb messageLogs=" + JSON.stringify(messageLogs));
+                        	onSuccess (messageLogs);
+        				},
         				onError
     				);
             	});

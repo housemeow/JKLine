@@ -70,6 +70,9 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 				}
 			}
 		});
+		
+		
+		
 		var friend = {mid:$scope.mid};
 		JKLineDB.getMessageLog(
 			friend, 
