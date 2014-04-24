@@ -1,4 +1,4 @@
-app.controller('messageLogController',function($scope){
+app.controller('messageLogController',function($scope, JKLineDB){
 	var messageLogs = [
 	 {
 		 mid:1,

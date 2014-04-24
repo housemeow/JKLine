@@ -1,5 +1,4 @@
-<ion-view title="'朋友列表'"> <ion-content has-header="true"
-	has-tabs="true" padding="true">
+<ion-view title="'朋友列表'"> <ion-content has-header="true" has-tabs="true" padding="true">
 
 <h3 ng-show="friendInvitations.length!=0">好友邀請</h3>
 
@@ -15,9 +14,8 @@
 
 <h3 ng-show="friends.length!=0">好友清單</h3>
 <div class="list" ng-show="friend.length!=0">
-	<a class="item" href="#/chatRoom?name={{friend.name}}"  ng-repeat="friend in friends" ng-click="clickFriend(friend.mid)">
+	<a class="item" href="#/chatRoom?name={{friend.name}}&mid{{friend.mid}}"  ng-repeat="friend in friends" ng-click="clickFriend(friend.mid)">
 		<h2>{{friend.name}}</h2>
-		<p>{{friend.mid}}</p>
 	</a>
 </div>
 

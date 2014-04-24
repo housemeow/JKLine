@@ -43,16 +43,14 @@ app.controller('loginController',function($scope, JKLineDB, $location, $http){
 				send.success(function(response, status, headers, config){
 					console.log(response);
 					console.log("登入");
-					
-					JKLineDB.updatePreference(response, function(){}, function(){});
-					var idIndexedFriends = {};
-					JKLineDB.getPreference(function(tx, res) {
-						for (var i = 0, max = res.rows.length; i < max; i++) {
-							idIndexedFriends[res.rows.item(i).id] = res.rows.item(i);
-						}
+					$scope.error.member = JSON.stringify(response);
+					JKLineDB.updatePreference(response, function(){$scope.error.text = "success";}, 
+							function(){
+						$scope.error.text = "error";
 					});
-					console.log(idIndexedFriends);
-					
+					JKLineDB.getPreference(function(member){
+						console.log("getmember="+ JSON.stringify(member));
+					});
 					
 					$location.path("/tab/friendList");
 				});
