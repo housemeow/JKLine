@@ -8,6 +8,7 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
     $scope.preference = {};
     $scope.message = {};
 
+    $scope.timer = {};
 
     var updateMessageLog = function(){
 		$http({
@@ -23,16 +24,50 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 			for (index = 0; index < response.length; ++index) {
 				var messageLog = response[index];
 				messageLog.messageState = 4;
-				JKLineDB.saveMessage(
-						messageLog,
-						function(){
-							console.log("hello i'm in chat room controller save message");
-						}, 
-						function (e) {
-		                    console.log('add message fail: ' + e.message);
-                });
-				$scope.messageLogs.push(messageLog);
+				if(messageLog.message!=""){
+					JKLineDB.saveMessage(
+							messageLog,
+							function(){
+								console.log("hello i'm in chat room controller save message");
+							}, 
+							function (e) {
+			                    console.log('add message fail: ' + e.message);
+	                });
+					$scope.messageLogs.push(messageLog);
+					
+					
+					//傳送以讀訊息
+					 $http({
+					        method: 'POST',
+					        url: JKLineRegisterUrl + "sendMessage",
+					        data: {
+					            smid:$scope.preference.mid,
+					            rmid:$scope.mid,
+					            message:""
+					        }
+					 });
+				}else
+				{
+					//對方已經看過我的訊息
+					JKLineDB.readAllMessageLog();
+					var i;
+					for(i=0;i<$scope.messageLogs.length;i++){
+						if($scope.messageLogs[i].messageState==1){
+							$scope.messageLogs[i].messageState=2;
+						}
+					}
+				}
 			    console.log("messageLog from server response[index]=" + JSON.stringify(response[index]));
+			}
+
+			for(i=0;i<$scope.messageLogs.length;i++){
+				if($scope.messageLogs[i].messageState==1){
+					$scope.messageLogs[i].name = $scope.preference.name;
+				}
+				if($scope.messageLogs[i].messageState==2){
+					$scope.messageLogs[i].hasBeenRead="已讀";
+					$scope.messageLogs[i].name = $scope.preference.name;
+				}
 			}
 		});
 		var friend = {mid:$scope.mid};
@@ -64,11 +99,20 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 		});
 		
 
-	    window.setInterval(updateMessageLog,1000);
+	    $scope.timer = window.setInterval(updateMessageLog,1000);
 	};
 	updatePreference();
-    
 
+	$scope.$on('$locationChangeStart', function(next, current) { 
+		window.clearInterval($scope.timer);
+		console.log("locationchant timer!!!!!");
+	 });
+	$scope.$on('$destroy', function(next, current) { 
+		window.clearInterval($scope.timer);
+		console.log("destroy timer!!!!!");
+	 });
+
+	
     
     $scope.clickSend = function()
     {
@@ -89,7 +133,7 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
     		 var messageLog = {};//response[index];
     		 messageLog.smid = $scope.mid;
     		 messageLog.message = $scope.message.message;
-    		 messageLog.messageState = 4;
+    		 messageLog.messageState = 1;
     		 messageLog.name = $scope.name;
     		 JKLineDB.saveMessage(
 				messageLog,

@@ -135,20 +135,33 @@ app.factory('JKLineDB', function($window, PhoneGap) {
             	});
             });
         },
-        
+
         saveMessage: function (messageLog, onSuccess, onError) {
         	PhoneGap.ready(function() {
         		console.log("svaeMessage messageLog=" + JSON.stringify(messageLog));
         		db.transaction(function(tx) {
         			tx.executeSql(
 	                		"INSERT INTO MessageLog(mid, message, timeStamp, messageState) VALUES (?, ?, ?, ?)",
-	                		[messageLog.smid, messageLog.message, '2007-01-01 10:00:00'
-, messageLog.messageState],
+	                		[messageLog.smid, messageLog.message, '2007-01-01 10:00:00', messageLog.messageState],
+        				onSuccess,
+        				onError
+    				);
+            	});
+            });
+        },
+        readAllMessageLog: function (messageLog, onSuccess, onError) {
+        	PhoneGap.ready(function() {
+        		console.log("readAllMessageLog");
+        		db.transaction(function(tx) {
+        			tx.executeSql(
+        					"UPDATE MessageLog SET  messageState=2 WHERE messageState=1",[],
         				onSuccess,
         				onError
     				);
             	});
             });
         }
+
+		//JKLineReadAllMessageLog();
     };
 });
