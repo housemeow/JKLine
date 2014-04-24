@@ -118,14 +118,11 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         getMessageLog: function (friend, onSuccess, onError) {
         	PhoneGap.ready(function() {
         		db.transaction(function(tx) {
-        			tx.executeSql("SELECT * FROM MessageLog, Friends WHERE MessageLog.mid = ? and Friends.mid = ? order by timeStamp asc", [friend.mid,friend.mid],
+        			tx.executeSql("SELECT * FROM MessageLog, Friends WHERE MessageLog.mid = ? and Friends.mid=MessageLog.mid and Friends.mid=? order by timeStamp asc", [friend.mid, friend.mid],
     					function(tx, res)
         				{
         					console.log("friend.mid" + friend.mid);
-    						messageLogs = [];//res.rows;
-
-    						
-
+    						messageLogs = [];
     						for (var i = 0, max = res.rows.length; i < max; i++) {
     							messageLogs.push(res.rows.item(i));
     						}

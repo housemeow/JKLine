@@ -41,7 +41,12 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 			function(member){
 				//console.log("fwefe");
 				console.log("i got messageLogs!");// + Json.stringify(messageLogs));
-				$scope.messageLogs = member;
+				console.log("oring messageLogs=" + JSON.stringify($scope.messageLogs));
+				console.log("new member=" + JSON.stringify(member));
+				if(member.length!=$scope.messageLogs.length){
+					$scope.messageLogs = member;
+					
+				}
 			},
 			function(){
 				console.log("abcd");
@@ -78,7 +83,25 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 	            message:$scope.message.message
 	        }
     	 }).success(function(response, status, headers, config){
-    		 $scope.message.message = "";
+    		 
+    		 
+
+    		 var messageLog = {};//response[index];
+    		 messageLog.smid = $scope.mid;
+    		 messageLog.message = $scope.message.message;
+    		 messageLog.messageState = 4;
+    		 messageLog.name = $scope.name;
+    		 JKLineDB.saveMessage(
+				messageLog,
+				function(){
+					console.log("hello i'm in chat room controller save message");
+				}, 
+				function (e) {
+					console.log('add message fail: ' + e.message);
+			});
+			$scope.messageLogs.push(messageLog);
+
+			$scope.message.message = "";
     	 });
     };
 });
