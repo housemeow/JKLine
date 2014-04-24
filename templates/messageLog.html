@@ -1,9 +1,9 @@
 <ion-view title="'聊天紀錄'"> <ion-content has-header="true"
 	has-tabs="true" padding="true">
 <div class="list" ng-show="messageLogs.length!=0">
-	<a class="item" href="#/chatRoom?name={{messageLog.name}}" ng-repeat="messageLog in messageLogs" ng-click="clickMessageLog(messageLog.mid)">
+	<a class="item" href="#/chatRoom?name={{messageLog.name}}&mid={{messageLog.mid}}" ng-repeat="messageLog in messageLogs" ng-click="clickMessageLog(messageLog.mid)">
 		<h2>{{messageLog.name}}</h2>
-		<p>{{messageLog.message}}</p>
+		<p>{{messageLog.message}} {{messageLog.mid}}</p>
 	</a>
 </div>
 

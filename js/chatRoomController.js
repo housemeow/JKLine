@@ -138,6 +138,7 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
     		 messageLog.message = $scope.message.message;
     		 messageLog.messageState = 1;
     		 messageLog.name = $scope.name;
+    		 messageLog.timeStamp = response;
     		 JKLineDB.saveMessage(
 				messageLog,
 				function(){

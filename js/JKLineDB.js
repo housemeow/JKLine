@@ -152,7 +152,8 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         		db.transaction(function(tx) {
         			tx.executeSql(
 	                		"INSERT INTO MessageLog(mid, message, timeStamp, messageState) VALUES (?, ?, ?, ?)",
-	                		[messageLog.smid, messageLog.message, '2007-01-01 10:00:00', messageLog.messageState],
+	                		[messageLog.smid, messageLog.message, messageLog.timeStamp, messageLog.messageState],
+	                		//[messageLog.smid, messageLog.message, '2007-01-01 10:00:00', messageLog.messageState],
         				onSuccess,
         				onError
     				);
