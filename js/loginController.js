@@ -48,18 +48,11 @@ app.controller('loginController',function($scope, JKLineDB, $location, $http){
 							function(){
 						$scope.error.text = "error";
 					});
-					var idIndexedFriends = {};
-					
-					JKLineDB.getPreference(function(tx, res) {
-						for (var i = 0, max = res.rows.length; i < max; i++) {
-							idIndexedFriends[res.rows.item(i).id] = res.rows.item(i);
-						}
-						console.log(JSON.stringify(idIndexedFriends));
-						$scope.error.message = JSON.stringify(idIndexedFriends);
-						console.log("hahahah");
+					JKLineDB.getPreference(function(member){
+						console.log("getmember="+ JSON.stringify(member));
 					});
 					
-					//$location.path("/tab/friendList");
+					$location.path("/tab/friendList");
 				});
 				
 				send.error(function(response, status, headers, config) {
