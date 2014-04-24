@@ -118,12 +118,20 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         getMessageLog: function (friend, onSuccess, onError) {
         	PhoneGap.ready(function() {
         		db.transaction(function(tx) {
-        			tx.executeSql("SELECT * FROM MessageLog WHERE mid = ? order by timeStamp asc", [friend.mid],
+        			tx.executeSql("SELECT * FROM MessageLog, Friends WHERE MessageLog.mid = ? and Friends.mid = ? order by timeStamp asc", [friend.mid,friend.mid],
     					function(tx, res)
         				{
-    						var messageLogs = res.rows;
+        					console.log("friend.mid" + friend.mid);
+    						messageLogs = [];//res.rows;
+
+    						
+
+    						for (var i = 0, max = res.rows.length; i < max; i++) {
+    							messageLogs.push(res.rows.item(i));
+    						}
+    						
         					console.log("sqlitedb messageLogs=" + JSON.stringify(messageLogs));
-                        	(onSuccess || angular.noop)(res.rows);
+                        	onSuccess (messageLogs);
         				},
         				onError
     				);
@@ -133,10 +141,12 @@ app.factory('JKLineDB', function($window, PhoneGap) {
         
         saveMessage: function (messageLog, onSuccess, onError) {
         	PhoneGap.ready(function() {
+        		console.log("svaeMessage messageLog=" + JSON.stringify(messageLog));
         		db.transaction(function(tx) {
         			tx.executeSql(
 	                		"INSERT INTO MessageLog(mid, message, timeStamp, messageState) VALUES (?, ?, ?, ?)",
-	                		[messageLog.mid, messageLog.message, messageLog.timeStamp, message.messageState],
+	                		[messageLog.smid, messageLog.message, '2007-01-01 10:00:00'
+, messageLog.messageState],
         				onSuccess,
         				onError
     				);
