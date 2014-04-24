@@ -1,22 +1,20 @@
-app.controller('addFriendController',function($scope){
-	$scope.UNREGISTERED = 0;
-	$scope.REGISTERED = 1;
-	$scope.DELETE = 2;
-	
-	$scope.state = $scope.UNREGISTERED;
-	
+app.controller('addFriendController',function($scope, $http){
+	var JKLineRegisterUrl = "http://iweb.csie.ntut.edu.tw:10080/apps36/member/";
 	$scope.friend = {};
-	
-	$scope.init = function() {
-		$scope.host = SettingManager.getHost();
-		if ($scope.host.registered) {
-			$scope.state = $scope.REGISTERED;
-		}
-	};
 	
 	$scope.clickAddFriend = function()
 	{
 		console.log("You clicked add friend button. ID:" + $scope.friend.id);
-		$scope.id="";
+		$http({
+	        method: 'POST',
+	        url: JKLineRegisterUrl + "SendFriendInvitation",
+	        data: {
+	            smid:1,
+	            rid: $scope.friend.id
+	        }
+	    }).success(function(response, status, headers, config){
+			console.log(response);
+			$scope.friends = response;
+		});
 	};
 });

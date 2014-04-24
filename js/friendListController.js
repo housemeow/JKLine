@@ -1,40 +1,64 @@
-app.controller('friendListController',function($scope){
-	var friendInvitations = [
-	    {
-			mid:4,
-			name:"FriendInvitation1"
-		},
-		{
-			mid:5,
-			name:"FriendInvitation2"
-		},
-	];
-	$scope.friendInvitations = friendInvitations;
+app.controller('friendListController',function($scope, $http){
+	var JKLineRegisterUrl = "http://iweb.csie.ntut.edu.tw:10080/apps36/member/";
+
 	
-	var friends = [
-		 {
-			mid:1,
-			name:"Friend1"
-		 },
-		 {
-			mid:2,
-			name:"Friend2"
-		 },
-		 {
-			mid:3,
-			name:"Friend3"
-		 }
-	];
+	var updateFriends = function(){
+		$http({
+	        method: 'POST',
+	        url: JKLineRegisterUrl + "GetFriends",
+	        data: {
+	            mid:1
+	        }
+	    }).success(function(response, status, headers, config){
+			console.log(response);
+			$scope.friends = response;
+		});
+		
+		$http({
+	        method: 'POST',
+	        url: JKLineRegisterUrl + "GetInvitations",
+	        data: {
+	            mid:1
+	        }
+	    }).success(function(response, status, headers, config){
+			console.log(response);
+			$scope.friendInvitations = response;
+		});
+	};
+	updateFriends();
 	
-	$scope.friends = friends;
+	
 	
 	$scope.clickAccept = function(id)
 	{
+		console.log("id+"+id);
+		$http({
+	        method: 'POST',
+	        url: JKLineRegisterUrl + "AgreeInvitation",
+	        data: {
+	            smid:id,
+	            rmid:1
+	        }
+	    }).success(function(response, status, headers, config){
+			console.log(response);
+			updateFriends();
+		});
 		console.log("You clicked accept button." + id);
 	};
 	
 	$scope.clickReject = function(id)
 	{
+		$http({
+	        method: 'POST',
+	        url: JKLineRegisterUrl + "DisagreeInvitation",
+	        data: {
+	            smid:id,
+	            rmid:1
+	        }
+	    }).success(function(response, status, headers, config){
+			console.log(response);
+			updateFriends();
+		});
 		console.log("You clicked reject button." + id);
 	};
 	$scope.clickFriend = function(id)

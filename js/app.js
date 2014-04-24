@@ -1,4 +1,4 @@
-var app = angular.module("JKLine", [ 'ionic' ]);
+var app = angular.module("JKLine", [ 'ionic' , 'PhoneGap']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider.state('tab', {
@@ -55,22 +55,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 app.run(function($http) {
 
-	var iLabServiceUrl = 'http://iweb.csie.ntut.edu.tw:10080/apps36/message/sendMessage';
-
-	var send = $http({
-		method : 'POST',
-		url : iLabServiceUrl,
-		data : {'message':'fff'}
-	});
-	send.success(function(response, status, headers, config) {
-		console.log("發送成功");
-		console.log("response"+ response);
-		console.log("status"+ status);
-		console.log("headers"+ headers);
-		console.log("config"+ config);
-	});
-
-	send.error(function(response, status, headers, config) {
-		console.log("發送失敗，原因:" + response);
-	});
+//	var iLabServiceUrl = 'http://iweb.csie.ntut.edu.tw:10080/apps36/message/sendMessage';
+//
+//	var send = $http({
+//		method : 'POST',
+//		url : iLabServiceUrl,
+//		data : {'message':'fff'}
+//	});
+//	send.success(function(response, status, headers, config) {
+//		console.log("發送成功");
+//		console.log("response"+ response);
+//		console.log("status"+ status);
+//		console.log("headers"+ headers);
+//		console.log("config"+ config);
+//	});
+//
+//	send.error(function(response, status, headers, config) {
+//		console.log("發送失敗，原因:" + response);
+//	});
 });
