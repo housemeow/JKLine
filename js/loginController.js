@@ -5,6 +5,15 @@ app.controller('loginController',function($scope, JKLineDB, $location, $http){
 	$scope.member = {};
 	$scope.error = {};
 	
+	
+	JKLineDB.getPreference(function(member){
+		if(member!=undefined){
+			$location.path('/tab/friendList');
+		}
+		console.log(member);
+	});
+	
+	
 	$scope.onLoginClick = function(){
 		console.log("You clicked login button.");
 		var id = $scope.member.id;

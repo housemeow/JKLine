@@ -171,9 +171,18 @@ app.factory('JKLineDB', function($window, PhoneGap) {
     				);
             	});
             });
+        },
+        logout : function(){
+        	PhoneGap.ready(function() {
+        		console.log("readAllMessageLog");
+        		db.transaction(function(tx) {
+	                tx.executeSql("DELETE FROM Preference WHERE 1");
+	                tx.executeSql("DELETE FROM Invitations WHERE 1");
+	                tx.executeSql("DELETE FROM Friends WHERE 1");
+	                tx.executeSql("DELETE FROM MessageLog WHERE 1");
+            	});
+            });
         }
-
-		//JKLineReadAllMessageLog();
     };
 });
 

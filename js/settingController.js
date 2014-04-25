@@ -1,4 +1,4 @@
-app.controller('settingController',function($scope, $http, JKLineDB){
+app.controller('settingController',function($scope, $http, $location, JKLineDB){
 	var JKLineRegisterUrl = "http://iweb.csie.ntut.edu.tw:10080/apps36/member/";
 
 	var backupPrefernce = {};
@@ -47,4 +47,8 @@ app.controller('settingController',function($scope, $http, JKLineDB){
 		$scope.preference.state = backupPrefernce.state;
 		console.log("")
 	};
+	$scope.clickLogOut = function(){
+		JKLineDB.logout();
+		$location.path("/login");
+	}
 });
