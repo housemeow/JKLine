@@ -120,7 +120,6 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
     $scope.clickSend = function()
     {
     	console.log("You clicked send button." + $scope.message.message);
-    	
     	 $http({
 	        method: 'POST',
 	        url: JKLineRegisterUrl + "sendMessage",
@@ -130,9 +129,6 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 	            message:$scope.message.message
 	        }
     	 }).success(function(response, status, headers, config){
-    		 
-    		 
-
     		 var messageLog = {};//response[index];
     		 messageLog.smid = $scope.mid;
     		 messageLog.message = $scope.message.message;

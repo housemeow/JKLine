@@ -3,7 +3,7 @@
 <div class="list" ng-show="messageLogs.length!=0">
 	<a class="item" href="#/chatRoom?name={{messageLog.name}}&mid={{messageLog.mid}}" ng-repeat="messageLog in messageLogs" ng-click="clickMessageLog(messageLog.mid)">
 		<h2>{{messageLog.name}}</h2>
-		<p>{{messageLog.message}} {{messageLog.mid}}</p>
+		<p>{{messageLog.message}}</p>
 	</a>
 </div>
 
