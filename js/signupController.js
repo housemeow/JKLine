@@ -43,6 +43,15 @@ app.controller('signupController',function($scope, $location, $http){
 				send.success(function(response, status, headers, config){
 					console.log(response);
 					console.log("登入");
+					$scope.error.member = JSON.stringify(response);
+					JKLineDB.updatePreference(response, function(){$scope.error.text = "success";}, 
+							function(){
+						$scope.error.text = "error";
+					});
+					JKLineDB.getPreference(function(member){
+						console.log("getmember="+ JSON.stringify(member));
+					});
+					
 					$location.path("/tab/friendList");
 				});
 				
