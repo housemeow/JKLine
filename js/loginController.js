@@ -1,4 +1,4 @@
-app.controller('loginController',function($scope, JKLineDB, $location, $http){
+app.controller('loginController',function($scope, JKLineDB, SettingManager, $location, $http){
 	$scope.init = function() {
 	};
 
@@ -60,6 +60,18 @@ app.controller('loginController',function($scope, JKLineDB, $location, $http){
 					JKLineDB.getPreference(function(member){
 						console.log("getmember="+ JSON.stringify(member));
 					});
+					var mid = response.mid;
+					var host = SettingManager.getHost();
+					var pushToken = host.token;
+					send = $http({
+			            method: 'POST',
+			            url: JKLineRegisterUrl + "UpdatePushToken",
+			            data: {
+			                mid: mid,
+			                pushToken: pushToken,
+			            }
+			        });
+					
 					
 					$location.path("/tab/friendList");
 				});

@@ -34,8 +34,6 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
 			                    console.log('add message fail: ' + e.message);
 	                });
 					$scope.messageLogs.push(messageLog);
-					
-					
 					//傳送以讀訊息
 					 $http({
 					        method: 'POST',

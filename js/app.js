@@ -53,24 +53,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/login");
 });
 
-app.run(function($http) {
-
-//	var iLabServiceUrl = 'http://iweb.csie.ntut.edu.tw:10080/apps36/message/sendMessage';
-//
-//	var send = $http({
-//		method : 'POST',
-//		url : iLabServiceUrl,
-//		data : {'message':'fff'}
-//	});
-//	send.success(function(response, status, headers, config) {
-//		console.log("發送成功");
-//		console.log("response"+ response);
-//		console.log("status"+ status);
-//		console.log("headers"+ headers);
-//		console.log("config"+ config);
-//	});
-//
-//	send.error(function(response, status, headers, config) {
-//		console.log("發送失敗，原因:" + response);
-//	});
+app.run(function(SettingManager, PushNotificationsFactory) {
+	var GCMSENDERID = '229215888121';
+	PushNotificationsFactory(GCMSENDERID, function(token, type) {
+		var host = SettingManager.getHost();
+		host.token = token;
+		if (type == "GCM")
+			host.type = 0;
+		else if (type == "APNS")
+			host.type = 1;
+		SettingManager.setHost(host);
+	});
 });

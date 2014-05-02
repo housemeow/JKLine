@@ -1,4 +1,4 @@
-app.controller('signupController',function($scope, $location, $http, JKLineDB){
+app.controller('signupController',function($scope, $location, $http, JKLineDB, SettingManager){
 
 	$scope.member = {};
 	$scope.error = {};
@@ -10,7 +10,8 @@ app.controller('signupController',function($scope, $location, $http, JKLineDB){
 		var phone = $scope.member.phone;
 		var password = $scope.member.password;
 		var checkPassword = $scope.member.checkPassword;
-		
+		var host = SettingManager.getHost();
+		var pushToken = host.token;
 		
 		
 		var send = $http({
@@ -21,7 +22,8 @@ app.controller('signupController',function($scope, $location, $http, JKLineDB){
                 name: name,
                 phone: phone,
                 password: password,
-                checkPassword: checkPassword
+                checkPassword: checkPassword,
+                pushToken: pushToken
             }
         });
 		

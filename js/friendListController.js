@@ -33,8 +33,6 @@ app.controller('friendListController',function($scope, $http, JKLineDB, PhoneGap
 			console.log(response);
 			$scope.friendInvitations = response;
 			JKLineDB.updateInvitations(response);
-			
-			
 		});
 	};
 	
