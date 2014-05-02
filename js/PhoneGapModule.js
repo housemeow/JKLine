@@ -109,6 +109,8 @@ angular.module('PhoneGap').factory('PushNotificationsFactory', function ($rootSc
             var genericErrorHandler = function (error) {
                 $log.error('Error registering with push server:', error);
             };
+            
+            console.log(device.platform);
             // Register device with push server
             if (device.platform === 'Android') {
                 pushNotification.register(gcmSuccessHandler, genericErrorHandler, {
@@ -137,8 +139,10 @@ angular.module('PhoneGap').factory('PushNotificationsFactory', function ($rootSc
 
             // Android notification received
             window.onNotificationGCM = function (notification) {
+            	console.log("onNotificationGCM" + notification);
                 switch (notification.event) {
                     case 'registered':
+                    	console.log("onNotificationGCM registed");
                         if (notification.regid.length > 0) {
                             $log.info('Got GCM device registration ID:', notification.regid);
                             registeredCallback(notification.regid, 'GCM');
@@ -148,6 +152,7 @@ angular.module('PhoneGap').factory('PushNotificationsFactory', function ($rootSc
                         break;
 
                     case 'message':
+                    	console.log("onNotificationGCM message");
                         $log.info('GCM push notification received (only payload forwarded):', notification);
                         $rootScope.$broadcast('phonegapPush.notification', {
                             data: notification.payload.message,
@@ -156,10 +161,12 @@ angular.module('PhoneGap').factory('PushNotificationsFactory', function ($rootSc
                         break;
 
                     case 'error':
+                    	console.log("onNotificationGCM error");
                         $log.error('Error while receiving GCM push notification:', notification);
                         break;
 
                     default:
+                    	console.log("onNotificationGCM default");
                         $log.error('Unknown GCM push notification received:', notification);
                         break;
                 }
