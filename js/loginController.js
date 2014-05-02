@@ -63,7 +63,7 @@ app.controller('loginController',function($scope, JKLineDB, SettingManager, $loc
 					var mid = response.mid;
 					var host = SettingManager.getHost();
 					var pushToken = host.token;
-					send = $http({
+					var send = $http({
 			            method: 'POST',
 			            url: JKLineRegisterUrl + "UpdatePushToken",
 			            data: {
@@ -71,6 +71,8 @@ app.controller('loginController',function($scope, JKLineDB, SettingManager, $loc
 			                pushToken: pushToken,
 			            }
 			        });
+					send.success(function(response, status, headers, config){});
+					send.error(function(response, status, headers, config) {});
 					
 					
 					$location.path("/tab/friendList");
