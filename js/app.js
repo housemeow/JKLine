@@ -55,11 +55,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 app.run(function(SettingManager, PushNotificationsFactory) {
 	var GCMSENDERID = '229215888121';
-	PushNotificationsFactory(GCMSENDERID, function(token, type) {
+	PushNotificationsFactory(GCMSENDERID, function(token, type) 
+	{
 		console.log("i'm in PushNotificationFactory registered callback.");
 		var host = SettingManager.getHost();
 		host.token = token;
-		
 		if (type == "GCM")
 			host.type = 0;
 		else if (type == "APNS")

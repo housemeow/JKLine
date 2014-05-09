@@ -6,7 +6,7 @@ app.controller('chatRoomController',function($scope, $location, JKLineDB, $http)
     $scope.name = ($location.search()).name;
     
     $scope.preference = {};
-    $scope.message = {};
+    $scope.message = {message:""};
 
     $scope.timer = {};
 

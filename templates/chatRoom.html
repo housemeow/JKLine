@@ -2,7 +2,7 @@
 	 padding="true">
 	 
     <input type="text" ng-model="message.message">
-    <button class="button button-positive pull-right" ng-click="clickSend()">傳送</button>
+    <button class="button button-positive pull-right" ng-click="clickSend()" ng-disabled="message.message == ''">傳送</button>
 <ul class="list">
     <li class="item" ng-repeat="messageLog in messageLogs">
 		<h2 class="right-side">{{messageLog.name}}</h2>
